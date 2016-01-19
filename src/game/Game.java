@@ -5,6 +5,8 @@ import org.lwjgl.opengl.Display;
 import org.lwjgl.opengl.DisplayMode;
 import org.lwjgl.opengl.GL11;
 
+import shader.Shader3D;
+
 /*
  * Space Game OpenGL branch using lwjgl 2.x and Opengl 3.2 libraries
  * Author: John Thornton, Ryan St. John
@@ -13,29 +15,34 @@ import org.lwjgl.opengl.GL11;
 
 public class Game{
 	
-	//start the game state
+	public Shader3D shader3D;
+	
 	public void start(){
+		
 		createDisplay();
+		
+		
+		
+		shader3D = new Shader3D(this);
+		shader3D.validateAndCompile();
 		
 		while(!Display.isCloseRequested()){
 			
+			//Reset all the color and buffers
 			GL11.glClearColor(0, 0, 0, 0);
 			GL11.glClear(GL11.GL_COLOR_BUFFER_BIT | GL11.GL_DEPTH_BUFFER_BIT);
-            GL11.glEnable(GL11.GL_DEPTH_TEST);
-			
-            
+	        GL11.glEnable(GL11.GL_DEPTH_TEST);
             
 			Display.update();
 		}
 	}
 	
-	//Pause the game state
 	public void pause(){
 		
 	}
 	
-	//Exit the game
 	public void stop(){
+		//shader3D.cleanUp();
 		Display.destroy();
 		System.out.println("Exited Space Game, thanks for playing!");
 	}
